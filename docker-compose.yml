@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16
+    container_name: disher-db
+    environment:
+      POSTGRES_DB: disher
+      POSTGRES_USER: disher
+      POSTGRES_PASSWORD: disher
+    ports:
+      - "5432:5432"
+    volumes:
+      - disher_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U disher -d disher"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    image: mcdodik2008/disher:latest
+    container_name: disher-app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8080:8080"
+
+volumes:
+  disher_pg_data:

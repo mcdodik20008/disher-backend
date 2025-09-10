@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0001-init
+      author: you
+      changes:
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: department
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
